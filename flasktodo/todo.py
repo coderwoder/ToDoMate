@@ -20,10 +20,17 @@ def home():
 @app.route("/add",methods=["POST"])
 def add():
     title=request.form.get("title") # Fetch the title
-    new_todo=Todo(title=title) # Make the table, add the values
+    new_todo=Todo(title=title,status=False) # Make the table, add the values
     db.session.add(new_todo)
     db.session.commit()
     return redirect(url_for("home")) # Send (merge) it to the Home page
+
+@app.route("/update_status/<int:todo_id>") #kind fo like adding a parameter of int type
+def update_status(todo_id):
+    updated_todo=Todo.query.filter_by(id=todo_id).first()
+    updated_todo.status= not updated_todo.status
+    db.session.commit()
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     app.app_context().push()

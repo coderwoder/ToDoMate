@@ -24,6 +24,16 @@
         <div class="ui segment">
             <p class="ui big header">{{ todo.id }} | {{ todo.title }} </p>
         </div>
+
+        {% if todo.status == False %}
+        <span class="ui gray label"> Uncompleted </span>
+
+        {% else %}
+        <span class="ui green label"> Completed </span>
+        {% endif %}
+        
+        <a class="ui blue button" href="/update_status/{{ todo.id }}"> Update </a>
+
         {% endfor %}
 
     </div>
