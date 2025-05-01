@@ -10,7 +10,7 @@
 <body>
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">To Do App</h1>
-        <form action="" class="ui form" method="post">
+        <form action="/add" class="ui form" method="post">
             <div class="field">
                 <label>Todo Title</label>
                 <input type="text" id="title" placeholder="Enter Your To Do...."><br>
@@ -20,6 +20,11 @@
 
         <hr>
 
+        {% for todo in todo_lists %}
+        <div class="ui segment">
+            <p class="ui big header">{{ todo.id }} | {{ todo.title }} </p>
+        </div>
+        {% endfor %}
 
     </div>
 </body>
