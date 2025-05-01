@@ -32,8 +32,15 @@ def update_status(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+@app.route("/delete/<int:todo_id>")
+def delete(todo_id):
+    deleting_todo=Todo.query.filter_by(id=todo_id).first()
+    db.session.delete(deleting_todo)
+    db.session.commit()
+    return redirect(url_for("home"))
+
 if __name__ == '__main__':
     app.app_context().push()
     db.create_all()
     app.run(debug=True)
-    db.drop_all()
+    # db.drop_all() #reset the whole todo database after server close

@@ -13,7 +13,7 @@
         <form action="/add" class="ui form" method="post">
             <div class="field">
                 <label>Todo Title</label>
-                <input type="text" id="title" placeholder="Enter Your To Do...."><br>
+                <input type="text" name="title" placeholder="Enter Your To Do...."><br>
             </div>
                 <button class="ui blue button" type="submit"> Add </button>
         </form>
@@ -33,7 +33,8 @@
         {% endif %}
         
         <a class="ui blue button" href="/update_status/{{ todo.id }}"> Update </a>
-
+        <a class="ui red button" href="/delete/{{ todo.id }}"> Delete </a>
+        
         {% endfor %}
 
     </div>
