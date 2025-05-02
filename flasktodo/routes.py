@@ -1,17 +1,6 @@
-from flask import Flask,url_for,render_template,request,redirect
-from flask_sqlalchemy import SQLAlchemy
-
-app= Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///data.db"
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #Tracks modifications to the database and send signals when change occurs
-
-db = SQLAlchemy(app)
-
-class Todo(db.Model):
-    id =db.Column(db.Integer,primary_key=True)
-    title=db.Column(db.String(150))
-    status=db.Column(db.Boolean)
-
+from flask import url_for,render_template,request,redirect
+from flasktodo.models import Todo
+from flasktodo import app,db
 @app.route("/")
 def home():
     todo_lists=Todo.query.all()
@@ -32,9 +21,13 @@ def update_status(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-@app.route("/edit",methods=['POST'])
-def edit():
-    
+@app.route("/edit/<int:todo_id>",methods=["POST"])
+def edit(todo_id):
+    new_title=request.form['title']
+    print(new_title)
+    edited_todo=Todo.query.filter_by(id=todo_id).first()
+    print(edited_todo)
+    edited_todo.title=new_title
     db.session.commit()
     return redirect(url_for("home"))
 
@@ -45,9 +38,3 @@ def delete(todo_id):
     db.session.delete(deleting_todo)
     db.session.commit()
     return redirect(url_for("home"))
-
-if __name__ == '__main__':
-    app.app_context().push()
-    db.create_all()
-    app.run(debug=True)
-    # db.drop_all() #reset the whole todo database after server close

@@ -36,24 +36,25 @@
        
         <a class="ui red button" href="/delete/{{ todo.id }}"> Delete </a>
         <button class="ui blue button" onclick="openEditModal()"> Edit </button>
-        {% endfor %}
-
-        <div onclick="openEditModal()" class="ui modal">
-            <i class="close icon"></i>
-            <div class="header">
-              Edit ToDo
-            </div>
-            <div class="content">
-                <form id="editForm" class="ui form" method="post" action="/edit">
-                    <input type="hidden" name="id" id="editTodoId">
-                    <div class="field">
-                        <label>Todo Title</label>
-                        <input type="text" name="title" id="editTodoTitle" placeholder="Edit your To Do...">
+                <div onclick="openEditModal()" class="ui modal">
+                    <i class="close icon"></i>
+                    <div class="header">
+                      Edit ToDo
                     </div>
-                    <button class="ui blue button" type="submit">Save</button>
-                </form>
-            </div>
-    </div>
+                    <div class="content">
+                        <form id="editForm" class="ui form" method="post" action="/edit/{{todo.id}}">
+                            <div class="field">
+                                <label>Edit ToDo Title</label>
+                                <input type="text" name="title" value="{{todo.title}}">
+                            </div>
+                            <div class="container" style="display: flex; gap:0.2rem">
+                                <button class="ui blue button" type="submit">Save</button><br>
+                                <a class="ui black button" href="{{url_for('home')}}">Back</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        {% endfor %}
     <script>
 function openEditModal(){
     $('.ui.modal').modal('show');
