@@ -4,7 +4,7 @@ from flasktodo import app,db
 @app.route("/")
 def home():
     todo_lists=Todo.query.all()
-    return render_template("index.html",todo_lists=todo_lists)
+    return render_template("todo.html",todo_lists=todo_lists)
 
 @app.route("/add",methods=["POST"])
 def add():
@@ -38,3 +38,11 @@ def delete(todo_id):
     db.session.delete(deleting_todo)
     db.session.commit()
     return redirect(url_for("home"))
+
+@app.route("/register")
+def register():
+    return render_template("register.html",title="Register")
+
+@app.route("/login")
+def login():
+    return render_template("login.html",title="Login")
