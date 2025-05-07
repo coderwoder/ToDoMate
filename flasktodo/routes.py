@@ -1,9 +1,12 @@
-from flask import jsonify, session, url_for,render_template,request,redirect
+from flask import flash, jsonify, session, url_for,render_template,request,redirect,make_response
+
 from flasktodo.forms import LoginForm, RegistrationForm
 from flasktodo.models import Todo, User
 from flasktodo import app,db
 from flasktodo import jwt
-from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
+from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity,set_access_cookies, unset_jwt_cookies
+from flasktodo import exception_handling
+
 
 @app.route("/",methods=["GET"])
 @jwt_required()
@@ -60,11 +63,16 @@ def register():
 @app.route("/login",methods=["POST","GET"])
 def login():
     form =LoginForm()
-    if form.validate_on_submit():
-        # print(user)
-        if form.email.data!='Admin123' and form.password.data!='passwork':
-            print("Rong passwork")
-        else:
-            access_token=create_access_token(identity=form.email.data)
-            return redirect(url_for("home")) 
+    if form.email.data:
+        access_token=create_access_token(identity=form.email.data)
+        resp=make_response(redirect('/'))
+        set_access_cookies(resp,access_token)
+        return resp
+            
     return render_template("login.html",title="Login",form=form)
+
+@app.route('/logout',methods=['GET'])
+def logout():
+    resp=make_response(redirect('/login'))
+    unset_jwt_cookies(resp)
+    return resp,200
