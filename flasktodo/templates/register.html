@@ -1,11 +1,29 @@
 {% extends "layout.html" %}
-{% block title %}
-Register
-{% endblock title %}
+{% block content %}
+<div class="col-lg-6">
+    <div class="p-5">
+        <div class="mb-4">
+            <h3 class="h4 font-weight-bold text-theme">Register</h3>
+        </div>
+        <h6 class="h5 mb-0">Sign Up!</h6>
+        <p class="text-muted mt-2 mb-4">Register Your Email Address and Password.</p>
 
-{% block greet %}
-Join us!
-{% endblock%}
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group mb-2">
+                {{form.email.label()}}
+                {{form.email(class="form-control")}}
+            </div>
+            <div class="form-group mb-4">
+                {{form.password.label()}}
+                {{form.password(class="form-control")}}
+            </div>
+            {{form.submit_btn(class="btn btn-theme")}}
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
 
 
 {%block page_switch%}
