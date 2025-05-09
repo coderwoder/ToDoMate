@@ -16,6 +16,7 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_SECURITY'] =False
 app.config['JWT_ACCESS_COOKIE_PATH']='/'
 app.config['JWT_COOKIE_CSRF_PROTECT']=True
+app.config['JWT_CSRF_CHECK_FORM']=True
 
 jwt =JWTManager(app)
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #Tracks modifications to the database and send signals when change occurs

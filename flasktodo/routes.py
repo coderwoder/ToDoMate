@@ -3,7 +3,7 @@ from flasktodo.forms import LoginForm, RegistrationForm
 from flasktodo.models import Todo, User
 from flasktodo import app,db,bycrpt
 from flasktodo import jwt
-from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity,set_access_cookies, unset_jwt_cookies, verify_jwt_in_request
+from flask_jwt_extended import create_access_token, get_csrf_token,jwt_required,get_jwt_identity,set_access_cookies, unset_jwt_cookies, verify_jwt_in_request
 from flasktodo import exception_handling
 
 
@@ -12,9 +12,11 @@ from flasktodo import exception_handling
 def home():
     flash(f'Hello, Welcome Back!',category="success")
     current_user=get_jwt_identity()
+    csrf_token = request.cookies.get('csrf_access_token')
+    print(csrf_token)
     print(current_user)
     todo_lists=Todo.query.all()
-    return render_template("todo.html",todo_lists=todo_lists),200
+    return render_template("todo.html",todo_lists=todo_lists,csrf_token=csrf_token),200
 
 @app.route("/add",methods=["GET","POST"])
 @jwt_required()
