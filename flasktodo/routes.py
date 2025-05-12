@@ -12,10 +12,9 @@ from flasktodo import exception_handling
 def home():
     flash(f'Hello, Welcome Back!',category="success")
     current_user=get_jwt_identity()
+    user=User().query.filter_by(email=str(current_user)).first()
     csrf_token = request.cookies.get('csrf_access_token')
-    print(csrf_token)
-    print(current_user)
-    todo_lists=Todo.query.all()
+    todo_lists=Todo.query.filter_by(user_id=user.id)
     return render_template("todo.html",todo_lists=todo_lists,csrf_token=csrf_token),200
 
 @app.route("/add",methods=["GET","POST"])
@@ -36,7 +35,7 @@ def update_status(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-@app.route("/edit/<int:todo_id>",methods=["POST"])
+@app.route("/edit/<int:todo_id>",methods=["GET","POST"])
 @jwt_required()
 def edit(todo_id):
     new_title=request.form['title']

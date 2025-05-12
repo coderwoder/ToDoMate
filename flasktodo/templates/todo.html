@@ -34,10 +34,13 @@
         <a href="/logout" class="btn btn-danger align-self-baseline">Log out</a>
         </div>
         <form action="/add" class="ui form" method="post">
-            <div class="field">
+            <div class="field ">
                 <label>Todo Title</label>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                <input type="text" name="title" placeholder="Enter Your To Do...."><br>
+                <input type="text" name="title" placeholder="Enter Your To Do...." required><br>
+                <div class="invalid-feedback">
+                    Please Enter A Todo.
+                </div>
             </div>
                 <button class="ui blue button" type="submit"> Add </button>
         </form>
@@ -58,32 +61,30 @@
         {% endif %}
        
         <a class="ui red button" href="/delete/{{ todo.id }}"> Delete </a>
-        <button class="ui blue button" onclick="openEditModal()"> Edit </button>
+        <button type="button" class="ui blue button" data-toggle="modal" data-target="#exampleModalCenter">
+            Edit Todo
+        </button>
             
-                <div onclick="openEditModal()" class="ui modal">
-                    <i class="close icon"></i>
-                    <div class="header">
-                      Edit ToDo
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Todo Title</h5>
                     </div>
-                    <div class="content">
-                        <form id="editForm" class="ui form" method="post" action="/edit/{{todo.id}}">
-                            <div class="field">
-                                <label>Edit ToDo Title</label>
-                                <input type="text" name="title" value="{{todo.title}}">
-                            </div>
-                            <div class="container" style="display: flex; gap:0.2rem">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                                <button class="ui blue button" type="submit">Save</button><br>
-                                <a class="ui black button" href="{{url_for('home')}}">Back</a>
-                            </div>
+                    <div class="modal-body">
+                        <form method="post" action="/edit/{{ todo.id }}" >
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <input type="text" class="form-control" name="title" value="{{todo.title}}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
                         </form>
-                    </div>
                 </div>
+            </div>
+        </div>
         {% endfor %}
-    <script>
-function openEditModal(){
-    $('.ui.modal').modal('show');
-}       
-    </script>
+
 </body>
 </html>

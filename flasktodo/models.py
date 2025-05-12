@@ -11,7 +11,7 @@ class User(db.Model):
 
 class Todo(db.Model):
     id =db.Column(db.Integer,primary_key=True)
-    title=db.Column(db.String(150))
+    title=db.Column(db.String(150),nullable=False)
     status=db.Column(db.Boolean)
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
 
