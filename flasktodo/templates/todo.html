@@ -31,12 +31,13 @@
         {% endwith %}
         <div class="d-flex">
         <h1 class="me-auto" >To Do App</h1>
+        <button type="button" class="btn btn-primary align-self-baseline me-2" data-toggle="modal" data-target="#passModal">Change Password</button>
         <a href="/logout" class="btn btn-danger align-self-baseline">Log out</a>
         </div>
         <form action="/add" class="ui form" method="post">
             <div class="field ">
                 <label>Todo Title</label>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="csrf_refresh_token" value="{{ csrf_refresh_token }}">
                 <input type="text" name="title" placeholder="Enter Your To Do...." required><br>
                 <div class="invalid-feedback">
                     Please Enter A Todo.
@@ -61,29 +62,18 @@
         {% endif %}
        
         <a class="ui red button" href="/delete/{{ todo.id }}"> Delete </a>
-        <button type="button" class="ui blue button" data-toggle="modal" data-target="#exampleModalCenter">
+        <button type="button" class="ui blue button" data-toggle="modal" data-target="#editModal">
             Edit Todo
         </button>
             
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Todo Title</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="/edit/{{ todo.id }}" >
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <input type="text" class="form-control" name="title" value="{{todo.title}}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                        </form>
-                </div>
-            </div>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            {% include "edit_modal.html"%}
         </div>
+
+        <div class="modal fade" id="passModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            {% include "pass_change_modal.html"%}
+        </div>
+        
         {% endfor %}
 
 </body>
