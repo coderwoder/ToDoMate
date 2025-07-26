@@ -1,2 +1,2 @@
 # FlaskToDo
-A Simple JWT ToDo Flask App with a "Simple" Edit Feature. DataBase for todo and user data -> SQLAlchemy
+A Flask-JWT ToDo App with a "Simple" Edit Feature. DataBase for todo and user data -> SQLAlchemy
